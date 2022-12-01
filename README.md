@@ -1,8 +1,5 @@
 # 🎄 Advent of code 2022
 
-This is a starter for the advent of code, in TypeScript.
-Fork it/clone it, and get started!
-
 ## Completion
 
 <!-- Auto completion:START - Do not remove or modify this section -->
