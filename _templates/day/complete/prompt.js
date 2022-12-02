@@ -3,20 +3,10 @@ const process = require('process');
 module.exports = {
   prompt: ({ prompter }) => {
     return new Promise(resolve => {
-      const day = process.argv.includes('--day')
-        ? process.argv[process.argv.indexOf('--day') + 1]
-        : undefined;
-      const extension = process.argv.includes('--extension')
-        ? process.argv[process.argv.indexOf('--extension') + 1]
-        : undefined;
-
-      if (
-        process.argv.includes('--day') &&
-        process.argv.includes('--extension')
-      ) {
+      if (process.argv.includes('--day') && process.argv.includes('--stars')) {
         return resolve({
-          day: day.padStart(2, '0'),
-          ext: extension.toLowerCase() === 'typescript' ? 'ts' : 'js',
+          day: process.argv[process.argv.indexOf('--day') + 1].padStart(2, '0'),
+          stars: Number(process.argv[process.argv.indexOf('--stars') + 1]),
         });
       }
 
@@ -25,26 +15,20 @@ module.exports = {
           {
             type: 'input',
             name: 'day',
-            message: 'Which day should we add?',
-            initial: day
-              ? day.padStart(2, '0')
-              : `${new Date().getDate()}`.padStart(2, '0'),
+            message: 'Which day did you complete?',
+            initial: `${new Date().getDate()}`.padStart(2, '0'),
           },
           {
-            type: 'select',
-            name: 'extension',
-            message: 'Which language would you like?',
-            choices: ['JavaScript', 'TypeScript'],
-            initial:
-              (extension || '').toLocaleLowerCase() === 'typescript'
-                ? 'TypeScript'
-                : 'JavaScript',
+            type: 'input',
+            name: 'stars',
+            message: 'How many stars did you get?',
+            initial: 2,
           },
         ])
-        .then(({ day, extension }) => {
+        .then(({ day, stars }) => {
           resolve({
             day: day.padStart(2, '0'),
-            ext: extension === 'TypeScript' ? 'ts' : 'js',
+            stars: parseInt(stars),
           });
         });
     });
